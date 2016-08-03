@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DragMe : MonoBehaviour {
 
+    // We cast the variable in Vector3 because it seems that the Camera object need a Vector3...
     private Vector3 screenPoint;
     private Vector3 offset;
 
