@@ -6,7 +6,7 @@ public class WaitForSecondsTextChangeColor : MonoBehaviour {
 
     public Text displayedText;
 
-    public int waitDuration = 5;
+    public float waitDuration = 5;
 
 
     public byte displayedTextColorR0 = 255;
