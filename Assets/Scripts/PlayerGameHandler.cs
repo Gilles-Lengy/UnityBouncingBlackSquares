@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerGameHandler : MonoBehaviour
@@ -39,6 +40,8 @@ public class PlayerGameHandler : MonoBehaviour
 
     private float minutes;
     private float seconds;
+
+    public string level = "Level_1";
 
 
 
@@ -106,37 +109,59 @@ public class PlayerGameHandler : MonoBehaviour
 
         }
 
-        if (gameState == 3) return;
         if (gameState == 1)
         {
             timeLeft -= Time.deltaTime;
 
-            minutes = Mathf.Floor(timeLeft / 60);
-            seconds = timeLeft % 60;
+            minutes = Mathf.Floor(timeLeft / 60);// /60 pour une minute
+            seconds = timeLeft % 60;// /60 pour une minute
             if (seconds > 59)
             {
                 seconds = 59;
             }
             if (minutes < 0)
             {
+                Debug.Log("game state 1 et minute<0");
                 gameState = 3;
                 minutes = 0;
                 seconds = 0;
 
                 setScoretext();
 
-                instructionsText.text = "Tap on the top of the screen to play again \r\n";
+                instructionsText.text = "Tap on the top of the screen to play again \n";
                 instructionsText.text += "Tap on the bottom of the screen to quit";
                 instructionsText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
 
 
 
-                Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
+
+
+                    Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
 
 
 
             }
         }
+        if (gameState == 3)
+        {
+            Debug.Log("game state 3");
+            if (Input.GetMouseButtonUp(0))
+            {
+                Debug.Log("game state 3 et button up" + Input.mousePosition.y);
+                if (Input.mousePosition.y >= Screen.height/2)
+                {
+                    Debug.Log("game state 3 et mpy>screen / 2");
+                    Time.timeScale = 1F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
+                    SceneManager.LoadScene(level);
+                }
+                else if(Input.mousePosition.y < Screen.height / 2)
+                {
+                    Debug.Log("game state 3 et mpy else");
+
+                    Application.Quit();
+                }
+            }
+        };
     }
 
     // Update is called once per frame
