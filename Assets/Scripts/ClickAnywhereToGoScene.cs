@@ -7,10 +7,6 @@ public class ClickAnywhereToGoScene : MonoBehaviour {
     // Variables
     public string level = "Level_1";
 
-    // Use this for initialization
-    void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
