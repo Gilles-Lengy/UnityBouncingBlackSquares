@@ -125,6 +125,8 @@ public class PlayerGameHandler : MonoBehaviour
 
                 setScoretext();
 
+                instructionsText.color = new Color32(0, 0, 0, 0);
+
 
 
                 Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
