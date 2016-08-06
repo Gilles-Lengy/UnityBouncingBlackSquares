@@ -125,7 +125,9 @@ public class PlayerGameHandler : MonoBehaviour
 
                 setScoretext();
 
-                instructionsText.color = new Color32(0, 0, 0, 0);
+                instructionsText.text = "Tap on the top of the screen to play again \r\n";
+                instructionsText.text += "Tap on the bottom of the screen to quit";
+                instructionsText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
 
 
 
