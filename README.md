@@ -1,6 +1,6 @@
 # Bouncing Black Squares
 
-An original microgame by Gilles Lengy for Steam and Android.
+An original microgame by Gilles Lengy for Android tablet.
 
 Made with Unity3D 5.4.0f3
 ( Started with Unity3D 5.3 )
