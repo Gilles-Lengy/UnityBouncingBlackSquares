@@ -5,6 +5,9 @@ public class SetScreenOrientationLandscape : MonoBehaviour {
 
     void Start()
     {
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         Screen.autorotateToPortrait = false;
 
         Screen.autorotateToPortraitUpsideDown = false;
