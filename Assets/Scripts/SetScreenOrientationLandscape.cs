@@ -16,6 +16,12 @@ public class SetScreenOrientationLandscape : MonoBehaviour {
 
         Screen.autorotateToLandscapeRight = true;
 
+       if (Screen.orientation == ScreenOrientation.Portrait || Screen.orientation == ScreenOrientation.PortraitUpsideDown)
+        {
+            Screen.orientation = ScreenOrientation.LandscapeLeft;
+        }
+
         Screen.orientation = ScreenOrientation.AutoRotation;
+
     }
 }
