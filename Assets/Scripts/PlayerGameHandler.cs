@@ -26,9 +26,11 @@ public class PlayerGameHandler : MonoBehaviour
     public byte scoreTextColorB1 = 0;
     public byte scoreTextColorA1 = 255;
 
+    public GameObject gameObjectTodrag; //refer to GO that being dragged
 
 
-    
+
+
 
     private Vector3 mousePosition;
     private int gameState;// 0 = Place the big square, 1 = Squares are bouncing, 3 = Displaying the score
@@ -56,18 +58,6 @@ public class PlayerGameHandler : MonoBehaviour
         bigBlackSquareOnMouse = 0;
     }
 
-    void OnMouseDown()
-    {
-        Debug.Log("OnMouseDown the big black square");
-        bigBlackSquareOnMouse = 1;
-    }
-
-    void OnMouseUp()
-    {
-        Debug.Log("OnMouseUp the big black square");
-        bigBlackSquareOnMouse = 2;
-    }
-
     public void startTimer(float from)
     {
 
@@ -78,6 +68,29 @@ public class PlayerGameHandler : MonoBehaviour
 
     void Update()
     {
+        // Handled the launch of the little squares when the big black square cease to be touched
+        foreach (Touch touch in Input.touches)
+        {
+            RaycastHit2D hit2D = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(touch.position), Vector2.zero);// Changed to conserv 2d stuff related like rigidbody2d
+
+            if (hit2D.collider != null && hit2D.collider.gameObject.tag == "Player")
+            {
+
+
+
+                     if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && bigBlackSquareOnMouse == 0)
+                     {
+                         bigBlackSquareOnMouse = 1;
+                     }
+                     if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && bigBlackSquareOnMouse == 1)
+                     {
+                         bigBlackSquareOnMouse = 2;
+                     }
+
+
+            }
+        }
+
         // Set the Gravity Scale of the little squares and the, the funny part of the game starts !!!
         if (bigBlackSquareOnMouse == 2 && gameState == 0)
         {
@@ -163,22 +176,6 @@ public class PlayerGameHandler : MonoBehaviour
                 }
             }
         };
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        // Moves the big black square before the game is launched and whistle the big black square is OnMouseDown
-        if (bigBlackSquareOnMouse == 1 && gameState == 0)
-        {
-            mousePosition = Input.mousePosition;
-            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
-        }
-
-
-
-
     }
 
     /*************************************** 
