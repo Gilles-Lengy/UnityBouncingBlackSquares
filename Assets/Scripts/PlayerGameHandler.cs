@@ -56,6 +56,7 @@ public class PlayerGameHandler : MonoBehaviour
         score = -777;
         setScoretext();
         bigBlackSquareOnMouse = 0;
+
     }
 
     public void startTimer(float from)
