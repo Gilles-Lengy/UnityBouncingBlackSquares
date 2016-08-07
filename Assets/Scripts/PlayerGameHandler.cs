@@ -84,6 +84,7 @@ public class PlayerGameHandler : MonoBehaviour
             
             Debug.Log("Let's BOUNCE !!!!");
             GetComponent<AudioSource>().Play();
+            Destroy(GetComponent<DragingScript>());// Destroy the script DragingScript attached to the big black square
             instructionsText.color = new Color32(0, 0, 0, 0);
             score = 0;
             gameState = 1;
@@ -93,7 +94,7 @@ public class PlayerGameHandler : MonoBehaviour
             {
 
                 topBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = squareGravityScale;
-                Destroy(topBouncingSquares[i].GetComponent<DragMe>());// Destroy the script DragMe attached to the little black square duplicated
+               
 
             }
             bottomBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareBottom");// Si on le fait dans le start, ça marche pas...
@@ -102,7 +103,7 @@ public class PlayerGameHandler : MonoBehaviour
             {
 
                 bottomBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = -squareGravityScale;
-                Destroy(bottomBouncingSquares[i].GetComponent<DragMe>());// Destroy the script DragMe attached to the little black square duplicated
+                
 
             }
            
