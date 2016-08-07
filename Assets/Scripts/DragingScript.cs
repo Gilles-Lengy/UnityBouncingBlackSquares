@@ -95,10 +95,12 @@ public class DragingScript : MonoBehaviour
                     if (hit.collider != null)
                     {
                         gameObjectTodrag = hit.collider.gameObject;
+                        if (gameObjectTodrag.tag != "Player Boundary") { 
                         GOcenter = gameObjectTodrag.transform.position;
                         touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         offset = touchPosition - GOcenter;
                         draggingMode = true;
+                        }
                     }
                     break;
 
