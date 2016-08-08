@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SetScreenOrientationLandscape : MonoBehaviour {
+public class SetScreenOrientationLandscape : MonoBehaviour { // rename this script later or sooner as InitApp or InitGame
 
     void Start()
     {
@@ -22,6 +22,8 @@ public class SetScreenOrientationLandscape : MonoBehaviour {
         }
 
         Screen.orientation = ScreenOrientation.AutoRotation;
+
+        PlayerPrefs.SetInt("sessionHighScore", 0);
 
     }
 }

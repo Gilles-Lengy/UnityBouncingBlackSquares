@@ -38,6 +38,7 @@ public class PlayerGameHandler : MonoBehaviour
     private GameObject[] bottomBouncingSquares;
     private int bigBlackSquareOnMouse;// On the big black square :  0 = no mouse event, 1 OnMouseDown, 2 OnMouseUp
     private int allTimeHighScore;
+    private int sessionHighScore;
     private int score;
     private string countDownString;
 
@@ -59,6 +60,7 @@ public class PlayerGameHandler : MonoBehaviour
         setScoretext();
         bigBlackSquareOnMouse = 0;
         allTimeHighScore = PlayerPrefs.GetInt("allTimeHighScore", allTimeHighScore);
+        sessionHighScore = PlayerPrefs.GetInt("sessionHighScore", sessionHighScore);
 
     }
 
@@ -257,6 +259,12 @@ public class PlayerGameHandler : MonoBehaviour
                 allTimeHighScore = score;
                 PlayerPrefs.SetInt("allTimeHighScore", allTimeHighScore);
             }
+            if (score > sessionHighScore)
+            {
+                sessionHighScore = score;
+                PlayerPrefs.SetInt("sessionHighScore", sessionHighScore);
+            }
+            
         }
         Debug.Log("Fin setScoretext");
     }
