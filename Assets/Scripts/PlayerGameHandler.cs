@@ -37,7 +37,7 @@ public class PlayerGameHandler : MonoBehaviour
     private GameObject[] topBouncingSquares;
     private GameObject[] bottomBouncingSquares;
     private int bigBlackSquareOnMouse;// On the big black square :  0 = no mouse event, 1 OnMouseDown, 2 OnMouseUp
-    public static int highScore;
+    private int allTimeHighScore;
     private int score;
     private string countDownString;
 
@@ -52,12 +52,13 @@ public class PlayerGameHandler : MonoBehaviour
     void Start()
     {
         Debug.Log("Start !!!!");
+        Time.timeScale = 1F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
         GetComponent<SpriteRenderer>().color = Color.black;
         gameState = 0;
         score = -777;
         setScoretext();
         bigBlackSquareOnMouse = 0;
-        highScore = PlayerPrefs.GetInt("highscore", highScore);
+        allTimeHighScore = PlayerPrefs.GetInt("allTimeHighScore", allTimeHighScore);
 
     }
 
@@ -71,23 +72,31 @@ public class PlayerGameHandler : MonoBehaviour
 
     void Update()
     {
+        //instructionsText.text = gameState.ToString();
+        Debug.Log("Game state : " + gameState.ToString());
+        
+
+
         // Handled the launch of the little squares when the big black square cease to be touched
-        foreach (Touch touch in Input.touches)
+        if ((bigBlackSquareOnMouse == 0 || bigBlackSquareOnMouse == 0) && gameState == 0) { }
+            foreach (Touch touch in Input.touches)
         {
             RaycastHit2D hit2D = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(touch.position), Vector2.zero);// Changed to conserv 2d stuff related like rigidbody2d
 
             if (hit2D.collider != null && hit2D.collider.gameObject.tag == "Player")
             {
+                Debug.Log("hit2D Player");
 
-
-
-                     if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && bigBlackSquareOnMouse == 0)
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && bigBlackSquareOnMouse == 0)
                      {
-                         bigBlackSquareOnMouse = 1;
-                     }
+                    Debug.Log("hit2D Player Began");
+                    bigBlackSquareOnMouse = 1;
+                   
+                }
                      if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && bigBlackSquareOnMouse == 1)
                      {
-                         bigBlackSquareOnMouse = 2;
+                    Debug.Log("hit2D Player Ended");
+                    bigBlackSquareOnMouse = 2;
                      }
 
 
@@ -103,14 +112,14 @@ public class PlayerGameHandler : MonoBehaviour
             Destroy(GetComponent<DragingScript>());// Destroy the script DragingScript attached to the big black square
             instructionsText.color = new Color32(0, 0, 0, 0);
             score = 0;
-            gameState = 1;
+
             topBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareTop");// Si on le fait dans le start, ça marche pas...
             int maxTop = topBouncingSquares.Length;
             for (int i = 0; i < maxTop; i++)
             {
 
                 topBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = squareGravityScale;
-               
+                Debug.Log("topBouncingSquares scale gravity");
 
             }
             bottomBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareBottom");// Si on le fait dans le start, ça marche pas...
@@ -119,10 +128,11 @@ public class PlayerGameHandler : MonoBehaviour
             {
 
                 bottomBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = -squareGravityScale;
-                
+                Debug.Log("bottomBouncingSquares scale gravity");
 
             }
-           
+            Debug.Log("Après set scale gravity");
+            gameState = 1;
 
         }
 
@@ -132,12 +142,18 @@ public class PlayerGameHandler : MonoBehaviour
 
             minutes = Mathf.Floor(timeLeft / 60);// /60 pour une minute
             seconds = timeLeft % 60;// /60 pour une minute
+
+            Debug.Log("aprés minutes et secondes");
+
+
             if (seconds > 59)
             {
                 seconds = 59;
             }
+
             if (minutes < 0)
             {
+
                 Debug.Log("game state 1 et minute<0");
                 gameState = 3;
                 minutes = 0;
@@ -158,6 +174,7 @@ public class PlayerGameHandler : MonoBehaviour
 
 
             }
+           // instructionsText.text = "after if minutes < 0";
         }
         if (gameState == 3)
         {
@@ -223,11 +240,8 @@ public class PlayerGameHandler : MonoBehaviour
 
     void setScoretext()
     {
-        if (score > highScore)
-        {
-            highScore = score;
-            PlayerPrefs.SetInt("highscore", highScore);
-        }
+        Debug.Log("Début setScoretext");
+
         if (score != -777) { scoreText.text = score.ToString() + '/' + countDownString; }
 
         else
@@ -238,7 +252,13 @@ public class PlayerGameHandler : MonoBehaviour
         if (gameState == 3)
         {
             scoreText.color= new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
+            if (score > allTimeHighScore)
+            {
+                allTimeHighScore = score;
+                PlayerPrefs.SetInt("allTimeHighScore", allTimeHighScore);
+            }
         }
+        Debug.Log("Fin setScoretext");
     }
 
     /*****************************

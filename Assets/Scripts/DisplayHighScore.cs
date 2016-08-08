@@ -4,17 +4,16 @@ using UnityEngine.UI;
 
 public class DisplayHighScore : MonoBehaviour {
 
-    public Text highScoreText;
-    public int highScore;
+    public Text allTimeHighText;
+    private int allTimeHighScore;
 
     // Use this for initialization
     void Start () {
-        highScore = PlayerPrefs.GetInt("highscore", highScore);
-        highScoreText.text = highScore.ToString();
+
+        allTimeHighScore = PlayerPrefs.GetInt("allTimeHighScore", allTimeHighScore);
+        allTimeHighText.text = allTimeHighScore.ToString();
+
     }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }
