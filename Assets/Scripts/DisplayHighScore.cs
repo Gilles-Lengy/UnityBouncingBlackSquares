@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class DisplayHighScore : MonoBehaviour {
 
-    private Text highScoreText;
+    public Text highScoreText;
     public int highScore;
 
     // Use this for initialization

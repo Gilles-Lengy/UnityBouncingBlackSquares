@@ -37,6 +37,7 @@ public class PlayerGameHandler : MonoBehaviour
     private GameObject[] topBouncingSquares;
     private GameObject[] bottomBouncingSquares;
     private int bigBlackSquareOnMouse;// On the big black square :  0 = no mouse event, 1 OnMouseDown, 2 OnMouseUp
+    public static int highScore;
     private int score;
     private string countDownString;
 
@@ -56,6 +57,7 @@ public class PlayerGameHandler : MonoBehaviour
         score = -777;
         setScoretext();
         bigBlackSquareOnMouse = 0;
+        highScore = PlayerPrefs.GetInt("highscore", highScore);
 
     }
 
@@ -144,7 +146,7 @@ public class PlayerGameHandler : MonoBehaviour
                 setScoretext();
 
                 instructionsText.text = "Tap on the top of the screen to play again \n";
-                instructionsText.text += "Tap on the bottom of the screen to quit";
+                instructionsText.text += "Tap on the bottom of the screen to go to the main menu";
                 instructionsText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
 
 
@@ -172,8 +174,8 @@ public class PlayerGameHandler : MonoBehaviour
                 else if(Input.mousePosition.y < Screen.height / 2)
                 {
                     Debug.Log("game state 3 et mpy else");
-
-                    Application.Quit();
+                    SceneManager.LoadScene("MainMenu");
+                    //Application.Quit();
                 }
             }
         };
@@ -221,6 +223,11 @@ public class PlayerGameHandler : MonoBehaviour
 
     void setScoretext()
     {
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("highscore", highScore);
+        }
         if (score != -777) { scoreText.text = score.ToString() + '/' + countDownString; }
 
         else
