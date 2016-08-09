@@ -15,6 +15,7 @@ public class PlayerGameHandler : MonoBehaviour
 
     public Text scoreText;
     public Text instructionsText;
+    public Text congratulationText;
 
     public byte scoreTextColorR0 = 0;
     public byte scoreTextColorG0 = 0;
@@ -58,6 +59,7 @@ public class PlayerGameHandler : MonoBehaviour
         gameState = 0;
         score = -777;
         setScoretext();
+        congratulationText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, 0);
         bigBlackSquareOnMouse = 0;
         allTimeHighScore = PlayerPrefs.GetInt("allTimeHighScore", allTimeHighScore);
         sessionHighScore = PlayerPrefs.GetInt("sessionHighScore", sessionHighScore);
@@ -244,6 +246,24 @@ public class PlayerGameHandler : MonoBehaviour
     {
         Debug.Log("Début setScoretext");
 
+        if (gameState == 3)
+        {
+            scoreText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
+            if (score > sessionHighScore)
+            {
+                sessionHighScore = score;
+                PlayerPrefs.SetInt("sessionHighScore", sessionHighScore);
+            }
+            if (score > allTimeHighScore)
+            {
+                allTimeHighScore = score;
+                PlayerPrefs.SetInt("allTimeHighScore", allTimeHighScore);
+            }
+            congratulationText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
+            congratulationText.text = "New All Time Score !!!";
+
+        }
+
         if (score != -777) { scoreText.text = score.ToString() + '/' + countDownString; }
 
         else
@@ -251,21 +271,6 @@ public class PlayerGameHandler : MonoBehaviour
             scoreText.text = "";
         }
 
-        if (gameState == 3)
-        {
-            scoreText.color= new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
-            if (score > allTimeHighScore)
-            {
-                allTimeHighScore = score;
-                PlayerPrefs.SetInt("allTimeHighScore", allTimeHighScore);
-            }
-            if (score > sessionHighScore)
-            {
-                sessionHighScore = score;
-                PlayerPrefs.SetInt("sessionHighScore", sessionHighScore);
-            }
-            
-        }
         Debug.Log("Fin setScoretext");
     }
 
