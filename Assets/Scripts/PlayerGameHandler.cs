@@ -9,7 +9,7 @@ public class PlayerGameHandler : MonoBehaviour
 
     public float moveSpeed = 0.1f;
     public float squareGravityScale = 1.3f;
-    
+
 
     public float timeLeft = 300.0f;
 
@@ -40,6 +40,7 @@ public class PlayerGameHandler : MonoBehaviour
     private int bigBlackSquareOnMouse;// On the big black square :  0 = no mouse event, 1 OnMouseDown, 2 OnMouseUp
     private int allTimeHighScore;
     private int sessionHighScore;
+    private int congratulationTextDisplay;// 0 nothing, 1 new session high score, 3 new all time high score
     private int score;
     private string countDownString;
 
@@ -58,6 +59,7 @@ public class PlayerGameHandler : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.black;
         gameState = 0;
         score = -777;
+        congratulationTextDisplay = 0;
         setScoretext();
         congratulationText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, 0);
         bigBlackSquareOnMouse = 0;
@@ -78,12 +80,12 @@ public class PlayerGameHandler : MonoBehaviour
     {
         //instructionsText.text = gameState.ToString();
         Debug.Log("Game state : " + gameState.ToString());
-        
+
 
 
         // Handled the launch of the little squares when the big black square cease to be touched
         if ((bigBlackSquareOnMouse == 0 || bigBlackSquareOnMouse == 0) && gameState == 0) { }
-            foreach (Touch touch in Input.touches)
+        foreach (Touch touch in Input.touches)
         {
             RaycastHit2D hit2D = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(touch.position), Vector2.zero);// Changed to conserv 2d stuff related like rigidbody2d
 
@@ -92,16 +94,16 @@ public class PlayerGameHandler : MonoBehaviour
                 Debug.Log("hit2D Player");
 
                 if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && bigBlackSquareOnMouse == 0)
-                     {
+                {
                     Debug.Log("hit2D Player Began");
                     bigBlackSquareOnMouse = 1;
-                   
+
                 }
-                     if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && bigBlackSquareOnMouse == 1)
-                     {
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && bigBlackSquareOnMouse == 1)
+                {
                     Debug.Log("hit2D Player Ended");
                     bigBlackSquareOnMouse = 2;
-                     }
+                }
 
 
             }
@@ -110,7 +112,7 @@ public class PlayerGameHandler : MonoBehaviour
         // Set the Gravity Scale of the little squares and the, the funny part of the game starts !!!
         if (bigBlackSquareOnMouse == 2 && gameState == 0)
         {
-            
+
             Debug.Log("Let's BOUNCE !!!!");
             GetComponent<AudioSource>().Play();
             Destroy(GetComponent<DragingScript>());// Destroy the script DragingScript attached to the big black square
@@ -173,12 +175,12 @@ public class PlayerGameHandler : MonoBehaviour
 
 
 
-                    Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
+                Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
 
 
 
             }
-           // instructionsText.text = "after if minutes < 0";
+            // instructionsText.text = "after if minutes < 0";
         }
         if (gameState == 3)
         {
@@ -186,13 +188,13 @@ public class PlayerGameHandler : MonoBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 Debug.Log("game state 3 et button up" + Input.mousePosition.y);
-                if (Input.mousePosition.y >= Screen.height/2)
+                if (Input.mousePosition.y >= Screen.height / 2)
                 {
                     Debug.Log("game state 3 et mpy>screen / 2");
                     Time.timeScale = 1F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
                     SceneManager.LoadScene(level);
                 }
-                else if(Input.mousePosition.y < Screen.height / 2)
+                else if (Input.mousePosition.y < Screen.height / 2)
                 {
                     Debug.Log("game state 3 et mpy else");
                     SceneManager.LoadScene("MainMenu");
@@ -253,16 +255,35 @@ public class PlayerGameHandler : MonoBehaviour
             {
                 sessionHighScore = score;
                 PlayerPrefs.SetInt("sessionHighScore", sessionHighScore);
+                congratulationTextDisplay = 1;
             }
             if (score > allTimeHighScore)
             {
                 allTimeHighScore = score;
                 PlayerPrefs.SetInt("allTimeHighScore", allTimeHighScore);
+                congratulationTextDisplay = 2;
             }
-            congratulationText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
-            congratulationText.text = "New All Time Score !!!";
 
+            if (congratulationTextDisplay > 0) {
+                congratulationText.color = new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
+            }
+
+            switch (congratulationTextDisplay)
+            {
+                case 1:
+                    congratulationText.text = "New Session High Score !!!";
+                    break;
+                case 2:
+                    congratulationText.text = "New All Time High Score !!!";
+                    break;
+                case 0:
+                default:
+                    congratulationText.text = "";
+                    break;
+            }
         }
+
+    
 
         if (score != -777) { scoreText.text = score.ToString() + '/' + countDownString; }
 
