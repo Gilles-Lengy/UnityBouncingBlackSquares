@@ -177,6 +177,8 @@ public class PlayerGameHandler : MonoBehaviour
 
                 Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
 
+                StopAllCoroutines();
+
 
 
             }
@@ -337,6 +339,10 @@ public class PlayerGameHandler : MonoBehaviour
             countDownString = string.Format("{0:0}:{1:00}", minutes, seconds);
             setScoretext();
             yield return new WaitForSeconds(0.2f);
+        }
+        if (gameState == 3)
+        {
+            StopAllCoroutines();
         }
     }
 }

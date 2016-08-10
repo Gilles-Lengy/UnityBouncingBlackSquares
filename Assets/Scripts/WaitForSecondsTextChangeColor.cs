@@ -18,35 +18,23 @@ public class WaitForSecondsTextChangeColor : MonoBehaviour {
     public byte displayedTextColorG1 = 0;
     public byte displayedTextColorB1 = 0;
     public byte displayedTextColorA1 = 255;
-    /*
-    void Start()
-    {
-        displayedText.color = new Color32(displayedTextColorR0, displayedTextColorG0, displayedTextColorB0, displayedTextColorA0);
-        StartCoroutine(ChangeColor(waitDuration));
-    }
-
-    IEnumerator ChangeColor(float waitTime)
-    {
-        print(Time.time);
-        yield return new WaitForSeconds(waitTime);
-        displayedText.color = new Color32(displayedTextColorR1, displayedTextColorG1, displayedTextColorB1, displayedTextColorA1);
-        print(Time.time);
-    }
-    */
 
     IEnumerator ChangeColor()
     {
         // suspend execution for "waitDuration" seconds
         yield return new WaitForSeconds(waitDuration);
         displayedText.color = new Color32(displayedTextColorR1, displayedTextColorG1, displayedTextColorB1, displayedTextColorA1);
-        print("WaitAndPrint " + Time.time);
+        print("ChangeColor : " + Time.time);
+        StopAllCoroutines();
     }
     IEnumerator Start()
     {
-        print("Starting " + Time.time);
+        Debug.Log("Enter start IEnum WaitForSecondsTextChangeColor");
+        Time.timeScale = 1F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html // You might have to remove or change this line...
+        print("Starting IEnumerator :: " + Time.time);
         displayedText.color = new Color32(displayedTextColorR0, displayedTextColorG0, displayedTextColorB0, displayedTextColorA0);
         // Start function WaitAndPrint as a coroutine
         yield return StartCoroutine("ChangeColor");
-        print("Done " + Time.time);
+        print("Done IEnumerator" + Time.time);
     }
 }
