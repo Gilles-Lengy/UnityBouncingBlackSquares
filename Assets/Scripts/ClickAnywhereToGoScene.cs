@@ -2,15 +2,18 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class ClickAnywhereToGoScene : MonoBehaviour {
+public class ClickAnywhereToGoScene : MonoBehaviour
+{
 
     // Variables
     public string level = "Level_1";
 
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetMouseButtonDown(0)) {
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
             SceneManager.LoadScene(level);
         }
 
