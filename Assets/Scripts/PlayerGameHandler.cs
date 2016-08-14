@@ -67,7 +67,15 @@ public class PlayerGameHandler : MonoBehaviour
         bigBlackSquareOnMouse = 0;
         allTimeHighScore = PlayerPrefs.GetInt("allTimeHighScore", allTimeHighScore);
         sessionHighScore = PlayerPrefs.GetInt("sessionHighScore", sessionHighScore);
+        playerPrefsSoundOnOff = PlayerPrefs.GetString("soundOnOff", "ON");
         playerPrefsVisualFXOnOff = PlayerPrefs.GetString("visualFxOnOff", "ON");
+        if (playerPrefsSoundOnOff == "ON")
+        {
+            AudioListener.volume = 1;
+        }
+        else {
+            AudioListener.volume = 0;
+        }
 
     }
 
@@ -117,7 +125,9 @@ public class PlayerGameHandler : MonoBehaviour
         {
 
             Debug.Log("Let's BOUNCE !!!!");
-            GetComponent<AudioSource>().Play();
+            
+                GetComponent<AudioSource>().Play();
+
             Destroy(GetComponent<DragingScript>());// Destroy the script DragingScript attached to the big black square
             instructionsText.color = new Color32(0, 0, 0, 0);
             score = 0;
@@ -224,8 +234,10 @@ public class PlayerGameHandler : MonoBehaviour
             {
                 if(playerPrefsVisualFXOnOff == "ON") { 
                 FlashFX(true);
-                }
-                GetComponent<AudioSource>().Play();
+                }                
+
+                    GetComponent<AudioSource>().Play();
+
                 score = score + 1;
                 setScoretext();
                 Debug.Log(score);
@@ -239,7 +251,9 @@ public class PlayerGameHandler : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.red;
             if (gameState == 1)
             {
-                collission.gameObject.GetComponent<AudioSource>().Play();
+
+                    collission.gameObject.GetComponent<AudioSource>().Play();
+
                 score = score - 3;
                 setScoretext();
                 Debug.Log(score);
