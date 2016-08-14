@@ -43,6 +43,8 @@ public class PlayerGameHandler : MonoBehaviour
     private int congratulationTextDisplay;// 0 nothing, 1 new session high score, 3 new all time high score
     private int score;
     private string countDownString;
+    private string playerPrefsSoundOnOff;
+    private string playerPrefsVisualFXOnOff;
 
     private float minutes;
     private float seconds;
@@ -65,6 +67,7 @@ public class PlayerGameHandler : MonoBehaviour
         bigBlackSquareOnMouse = 0;
         allTimeHighScore = PlayerPrefs.GetInt("allTimeHighScore", allTimeHighScore);
         sessionHighScore = PlayerPrefs.GetInt("sessionHighScore", sessionHighScore);
+        playerPrefsVisualFXOnOff = PlayerPrefs.GetString("visualFxOnOff", "ON");
 
     }
 
@@ -219,7 +222,9 @@ public class PlayerGameHandler : MonoBehaviour
 
             if (gameState == 1)
             {
+                if(playerPrefsVisualFXOnOff == "ON") { 
                 FlashFX(true);
+                }
                 GetComponent<AudioSource>().Play();
                 score = score + 1;
                 setScoretext();
