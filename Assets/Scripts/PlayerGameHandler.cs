@@ -329,20 +329,23 @@ public class PlayerGameHandler : MonoBehaviour
         Camera.main.backgroundColor = (fxState ? Color.black : Color.white);
 
         int maxTop = topBouncingSquares.Length;
+        /*
         for (int i = 0; i < maxTop; i++)
         {
 
             topBouncingSquares[i].GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
 
-        }
-        bottomBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareBottom");// Si on le fait dans le start, ça marche pas...
-        int maxBottom = bottomBouncingSquares.Length;
-        for (int i = 0; i < maxBottom; i++)
+        }*/
+        foreach (GameObject littleSquare in topBouncingSquares)
         {
-
-            bottomBouncingSquares[i].GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
-
+            littleSquare.GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
         }
+
+        foreach (GameObject littleSquare in bottomBouncingSquares)
+        {
+            littleSquare.GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
+        }
+
     }
 
     /*****************************
